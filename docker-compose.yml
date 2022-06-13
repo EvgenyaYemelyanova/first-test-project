@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: test-postgres
+    image: postgres
+    restart: always
+    ports:
+      - 5431:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: first_test_project
+  app:
+    container_name: first-test-project
+    image: first-test-project
+    build: .
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/first_test_project
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - 8080:8080
